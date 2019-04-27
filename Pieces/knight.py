@@ -13,4 +13,5 @@ class Knight(Piece):
                 moves.append((rank+1*j, file+2*k))
         moves = self.movesOnBoard(moves)
         moves = [move for move in moves if self.board[move] is None or self.board[move].player != self.player]
+        moves = [(self.position, move) for move in moves]
         return moves

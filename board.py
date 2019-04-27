@@ -15,12 +15,18 @@ class Board(object):
                         [None]*8,
                         [None]*8,
                         [None]*8]
-        self.lastmove = None
+        self.priorMoves = []
+        self.displayMode = True
     
     def __str__(self):
         separator = ' | '
         boardStr = ''
-        rank = 7
+        if self.displayMode:
+            files = list('ABCDEFGH')
+            rank = 8
+        else:
+            rank = 7
+            files = list('01234567')
         for row in reversed(self.squares):
             rowStr = str(rank) + separator
             for square in row:
@@ -31,7 +37,6 @@ class Board(object):
                 rowStr += separator
             boardStr += rowStr + '\n'
             rank -= 1
-        files = list('01234567')
         filesSeparator = '   '
         boardStr += ' '+ filesSeparator \
                     + filesSeparator.join(files) \
@@ -61,7 +66,7 @@ class Board(object):
 
     def confirmMove(self, player, otherplayer, startPosition, endPosition):
         capture = False
-        self.lastmove = (player, otherplayer, startPosition, endPosition)
+        self.priorMoves.append((player, otherplayer, startPosition, endPosition))
         if self[endPosition] is not None:
             capture = True
             player.captures.append(self[endPosition])
@@ -73,12 +78,14 @@ class Board(object):
         return capture
 
     def rollbackLastMove(self, capture):
-        player = self.lastmove[0]
-        otherplayer = self.lastmove[1]
-        startposition = self.lastmove[2]
-        endposition = self.lastmove[3]
+        lastmove = self.priorMoves.pop()
+        player = lastmove[0]
+        otherplayer = lastmove[1]
+        startposition = lastmove[2]
+        endposition = lastmove[3]
         self[startposition] = self[endposition]
         self[startposition].moves -= 1
+        self[startposition].position = startposition
         if capture:
             self[endposition] = player.captures.pop()
             otherplayer.pieces.append(self[endposition])
@@ -94,7 +101,8 @@ class Board(object):
         if piece.player is not player:
             print('{} does not belong to {}'.format(repr(piece), player.color))
             return
-        if endPosition not in self[startPosition].possibleMoves():
+        #index 1 of a move is the end position
+        if endPosition not in [move[1] for move in piece.possibleMoves()]:
             print('{} cannot move to {}'.format(repr(piece), endPosition))
             return
         capture = self.confirmMove(player, otherplayer, startPosition, endPosition)

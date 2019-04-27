@@ -17,4 +17,5 @@ class King(Piece):
                     moves.append((rank+i,file+j))
         moves = self.movesOnBoard(moves)
         moves = [move for move in moves if self.board[move] is None or self.board[move].player != self.player]
+        moves = [(self.position, move) for move in moves]
         return moves

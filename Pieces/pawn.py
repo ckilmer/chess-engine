@@ -25,11 +25,15 @@ class Pawn(Piece):
         checkposition = (rank + 1*direction, file - 1)
         if self.movesOnBoard([checkposition]) and self.board[checkposition] is not None and self.board[checkposition].player != self.player:
             moves.append(checkposition)
-        lastmoveStartPosition = self.board.lastmove[2]
-        lastmoveEndPosition = self.board.lastmove[3]
-        if (abs(lastmoveStartPosition[1] - file) == 1
-        and abs(lastmoveEndPosition[0] - lastmoveStartPosition[0]) == 2
-        and self.board[lastmoveEndPosition].kind == Pieces.PAWN
-        and rank == (3.5 + 0.5*direction)):
-            moves.append(rank+1, lastmoveStartPosition[1])
-        return self.movesOnBoard(moves)
+        if len(self.board.priorMoves) > 0:
+            lastmove = self.board.priorMoves[len(self.board.priorMoves) - 1]
+            lastmoveStartPosition = lastmove[2]
+            lastmoveEndPosition = lastmove[3]
+            if (abs(lastmoveStartPosition[1] - file) == 1
+            and abs(lastmoveEndPosition[0] - lastmoveStartPosition[0]) == 2
+            and self.board[lastmoveEndPosition].kind == Pieces.PAWN
+            and rank == (3.5 + 0.5*direction)):
+                moves.append(rank+1, lastmoveStartPosition[1])
+        moves = self.movesOnBoard(moves)
+        moves = [(self.position, move) for move in moves]
+        return moves

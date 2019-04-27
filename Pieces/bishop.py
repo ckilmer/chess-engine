@@ -28,4 +28,5 @@ class Bishop(Piece):
             if self.board[square] is not None:
                 break
         moves = [move for move in moves if self.board[move] is None or self.board[move].player != self.player]
+        moves = [(self.position, move) for move in moves]
         return moves
