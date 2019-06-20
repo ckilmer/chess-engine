@@ -33,7 +33,7 @@ class Pawn(Piece):
             and abs(lastmoveEndPosition[0] - lastmoveStartPosition[0]) == 2
             and self.board[lastmoveEndPosition].kind == Pieces.PAWN
             and rank == (3.5 + 0.5*direction)):
-                moves.append(rank+1, lastmoveStartPosition[1])
+                moves.append((rank+1, lastmoveStartPosition[1]))
         moves = self.movesOnBoard(moves)
         moves = [(self.position, move) for move in moves]
         return moves

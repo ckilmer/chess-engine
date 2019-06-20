@@ -1,4 +1,6 @@
+import tkinter
 from game import Game
+from display import Display
 
 def parseStrToCoord(coord):
     filemapping = {}
@@ -13,15 +15,12 @@ def parseStrToCoord(coord):
         print('not valid coordinate')
 
 game = Game()
+
 print(game.board)
-game.move((1,5), (2,5))
-game.move((6,4), (4,4))
-game.move((1,6), (3,6))
-print(game.board)
-while(not game.isOver()):
-    startcoord, endcoord = None, None
-    while(not game.move(startcoord, endcoord)):
-        startcoord = parseStrToCoord(input('{} choose a coordinate to move: '.format(game.currentplayer().color)))
-        endcoord = parseStrToCoord(input('{} choose a coordinate to move to: '.format(game.currentplayer().color)))
-    print(game.board)
-print('{} is the winner!'.format(game.otherplayer().color))
+
+
+root = tkinter.Tk()
+display = Display(root, game)
+root.mainloop()
+
+
