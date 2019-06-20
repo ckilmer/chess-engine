@@ -10,7 +10,6 @@ class Display():
         self.canvas_width = 1000
         self.margin_left = int((self.canvas_width - 8*self.square_size)/2)
         self.margin_top = int((self.canvas_height - 8*self.square_size)/2)
-
         self.current_piece = None
         self.startcoord = None
         self.currentcoord = None
@@ -74,12 +73,13 @@ class Display():
             #dy = self.board_to_canvas_coords(i, j)[1] - self.currentcoord[1]
             #self.canvas.move(self.current_piece, dx, dy)
             self.game.move(self.startcoord, (j, i))
-            self.redraw()
+        self.redraw()
         self.current_piece = None
         self.startcoord = None
         self.currentcoord = None
 
     def redraw(self):
+        self.canvas.delete('all')
         self.draw_blank_board()
         for i in range(8):
             for j in range(8):
@@ -91,6 +91,9 @@ class Display():
                     else:
                         tags = None
                     self.draw_piece(img, j, i, tags)
-        self.canvas.tag_bind('piece', '<ButtonPress-1>', self.select_piece)
-        self.canvas.tag_bind('piece', '<B1-Motion>', self.move_piece)
-        self.canvas.tag_bind('piece', '<ButtonRelease-1>', self.snap_piece)
+        if not self.game.isOver():
+            self.canvas.tag_bind('piece', '<ButtonPress-1>', self.select_piece)
+            self.canvas.tag_bind('piece', '<B1-Motion>', self.move_piece)
+            self.canvas.tag_bind('piece', '<ButtonRelease-1>', self.snap_piece)
+        else:
+            print('Game is over!')
