@@ -5,25 +5,25 @@ class Rook(Piece):
 
     def possibleMoves(self):
         moves = []
-        rank = self.position[0]
-        file = self.position[1]
+        rank = self.position[1]
+        file = self.position[0]
         for i in range(1,8-file):
-            square = (rank, file+i)
+            square = (file+i, rank)
             moves.append(square)
             if self.board[square] is not None:
                 break
         for i in range(1,1+file):
-            square = (rank, file-i)
+            square = (file-i, rank)
             moves.append(square)
             if self.board[square] is not None:
                 break
         for i in range(1,8-rank):
-            square = (rank+i, file)
+            square = (file, rank+i)
             moves.append(square)
             if self.board[square] is not None:
                 break
         for i in range(1,1+rank):
-            square = (rank-i, file)
+            square = (file, rank-i)
             moves.append(square)
             if self.board[square] is not None:
                 break

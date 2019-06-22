@@ -44,24 +44,24 @@ class Board(object):
         return boardStr
 
     def __getitem__(self, position):
-        return self.squares[position[0]][position[1]]
+        return self.squares[position[1]][position[0]]
 
     def __setitem__(self, position, value):
-        self.squares[position[0]][position[1]] = value
+        self.squares[position[1]][position[0]] = value
 
     def setup(self, players):
         for rank, player in [(1,0), (6,1)]:
             for i in range(8):
-                self[rank,i] = Pawn(self, players[player], (rank,i))
+                self[i, rank] = Pawn(self, players[player], (i, rank))
         for rank, player in [(0,0), (7,1)]:
-            self[rank,0] = Rook(self, players[player], (rank,0))
-            self[rank,1] = Knight(self, players[player], (rank,1))
-            self[rank,2] = Bishop(self, players[player], (rank,2))
-            self[rank,3] = Queen(self, players[player], (rank,3))
-            self[rank,4] = King(self, players[player], (rank,4))
-            self[rank,5] = Bishop(self, players[player], (rank,5))
-            self[rank,6] = Knight(self, players[player], (rank,6))
-            self[rank,7] = Rook(self, players[player], (rank,7))
+            self[0, rank] = Rook(self, players[player], (0, rank))
+            self[1, rank] = Knight(self, players[player], (1,rank))
+            self[2, rank] = Bishop(self, players[player], (2, rank))
+            self[3, rank] = Queen(self, players[player], (3, rank))
+            self[4, rank] = King(self, players[player], (4, rank))
+            self[5, rank] = Bishop(self, players[player], (5, rank))
+            self[6, rank] = Knight(self, players[player], (6, rank))
+            self[7, rank] = Rook(self, players[player], (7, rank))
         # need to add other pieces
 
     def confirmMove(self, player, otherplayer, startPosition, endPosition):

@@ -5,25 +5,25 @@ class Bishop(Piece):
 
     def possibleMoves(self):
         moves = []
-        rank = self.position[0]
-        file = self.position[1]
+        rank = self.position[1]
+        file = self.position[0]
         for i in range(1, min(8-file, 8-rank)):
-            square = (rank+i, file+i)
+            square = (file+i, rank+i)
             moves.append(square)
             if self.board[square] is not None:
                 break
         for i in range(1, min(1+file, 1+rank)):
-            square = (rank-i, file-i)
+            square = (file-i, rank-i)
             moves.append(square)
             if self.board[square] is not None:
                 break
         for i in range(1, min(8-file, 1+rank)):
-            square = (rank-i, file+i)
+            square = (file+i, rank-i)
             moves.append(square)
             if self.board[square] is not None:
                 break
         for i in range(1, min(1+file, 8-rank)):
-            square = (rank+i, file-i)
+            square = (file-i, rank+i)
             moves.append(square)
             if self.board[square] is not None:
                 break

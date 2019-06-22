@@ -59,7 +59,7 @@ class Display():
         self.current_piece = self.canvas.find_closest(event.x, event.y, halo=self.square_size/3)
         x = self.canvas.bbox(self.current_piece)[0] + (self.square_size + 1)/2
         y = self.canvas.bbox(self.current_piece)[1] + (self.square_size + 1)/2
-        self.startcoord = self.canvas_to_board_coords(x, y)[1], self.canvas_to_board_coords(x, y)[0]
+        self.startcoord = self.canvas_to_board_coords(x, y)
         self.currentcoord = x, y
 
     def move_piece(self, event):
@@ -74,8 +74,8 @@ class Display():
         if i < 0 or i > 7 or j < 0 or j > 7:
             pass
         else:
-            print(self.startcoord, (j, i))
-            self.game.move(self.startcoord, (j, i))
+            print(self.startcoord, (i, j))
+            self.game.move(self.startcoord, (i, j))
         self.redraw()
         self.current_piece = None
         self.startcoord = None
@@ -94,7 +94,7 @@ class Display():
                         tags = 'piece' if not self.game.isOver() else None
                     else:
                         tags = None
-                    self.draw_piece(img, j, i, tags)
+                    self.draw_piece(img, i, j, tags)
 
 import tkinter
 dir(tkinter.Canvas.create_text)
